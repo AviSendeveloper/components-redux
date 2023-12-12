@@ -1,70 +1,180 @@
-# Getting Started with Create React App
+# Components
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+different type of components
 
-## Available Scripts
+## Button
 
-In the project directory, you can run:
+### App.js
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+add ButtonPage in App.js
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```js
+import ButtonPage from "./pages/ButtonPage";
 
-### `npm test`
+const App = () => {
+    return (
+        <div>
+            <ButtonPage />
+        </div>
+    );
+};
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+export default App;
+```
 
-### `npm run build`
+#### ButtonPage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```js
+import { GoBell, GoBook } from "react-icons/go";
+import Button from "../components/Button";
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+const App = () => {
+    const handelClick = () => {
+        console.log("clicked");
+    };
 
-### `npm run eject`
+    return (
+        <div>
+            <div>
+                <Button
+                    success
+                    rounded
+                    outline
+                    className="mb-5"
+                    onClick={handelClick}
+                >
+                    <GoBell className="mr-1" />
+                    Click me!
+                </Button>
+            </div>
+            <div>
+                <Button danger rounded outline onMouseEnter={handelClick}>
+                    <GoBook className="mr-1" />
+                    Buy Now!
+                </Button>
+            </div>
+            <div>
+                <Button primary outline>
+                    See Deal!
+                </Button>
+            </div>
+            <div>
+                <Button warning rounded>
+                    Hide Ads!
+                </Button>
+            </div>
+            <div>
+                <Button secondary>Something!</Button>
+            </div>
+        </div>
+    );
+};
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+export default App;
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Button
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Button component is using as re-useable component
 
-## Learn More
+> Here we use few package \
+> like "classnames" and "react-icons"
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```js
+import className from "classnames";
+import { twMerge } from "tailwind-merge";
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+const Button = ({
+    children,
+    primary,
+    secondary,
+    success,
+    warning,
+    danger,
+    outline,
+    rounded,
+    ...rest
+}) => {
+    const classes = className(
+        rest.className,
+        "flex items-center px-3 py-1.5 mx-4 my-2 border",
+        {
+            "border-blue-500 bg-blue-500 text-white": primary,
+            "border-gray-900 bg-gray-500 text-white": secondary,
+            "border-green-500 bg-green-500 text-white": success,
+            "border-yellow-500 bg-yellow-500 text-white": warning,
+            "border-red-500 bg-red-500 text-white": danger,
+            "rounded-full": rounded,
+            "bg-white": outline,
+            "text-blue-500": outline && primary,
+            "text-gray-900": outline && secondary,
+            "text-green-500": outline && success,
+            "text-yellow-400": outline && warning,
+            "text-red-500": outline && danger,
+        }
+    );
 
-### Code Splitting
+    return (
+        <div>
+            <button {...rest} className={classes}>
+                {children}
+            </button>
+        </div>
+    );
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Button.propTypes = {
+    checkVariationType: ({ primary, secondary, success, warning, danger }) => {
+        const count =
+            Number(!!primary) +
+            Number(!!secondary) +
+            Number(!!success) +
+            Number(!!warning) +
+            Number(!!danger);
 
-### Analyzing the Bundle Size
+        if (count > 1)
+            throw new Error(
+                "Only anyone should be there as variation type in between primary, secondary, success, warning and danger"
+            );
+    },
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+export default Button;
+```
 
-### Making a Progressive Web App
+**Tricks:** check props are passed or not
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+> !undefined == true
+> Number(true) == 1\
+> Number(false) == 0\
+> Number(!!undefined) == 0\
 
-### Advanced Configuration
+**Tricks:** passing all event and className from parent to child component
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```js
+const Button = ({
+    // ...
+    ...rest
+}) => {
+    const classes = className(
+        rest.className,
+        "flex items-center px-3 py-1.5 mx-4 my-2 border"
+    );
 
-### Deployment
+    return (
+        <div>
+            <button {...rest} className={classes}>
+                {children}
+            </button>
+        </div>
+    );
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+export default Button;
+```
