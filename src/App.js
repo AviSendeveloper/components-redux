@@ -1,30 +1,10 @@
-import Acordion from "./components/Accordion";
-
-const items = [
-    {
-        id: "hjbhbsdfjb",
-        title: "Demo title 1",
-        content:
-            "This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item.",
-    },
-    {
-        id: "vdfvdfvb",
-        title: "Demo title 2 ",
-        content:
-            "This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item.",
-    },
-    {
-        id: "vedfvdfvdf",
-        title: "Demo title 3",
-        content:
-            "This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item. This the content of the this item.",
-    },
-];
+import AccordionPage from "./pages/AccordionPage";
 
 const App = () => {
     return (
         <div>
-            <Acordion items={items} />
+            <h1>App</h1>
+            <AccordionPage />
         </div>
     );
 };
